@@ -28,6 +28,17 @@ try:
 except ImportError:
     pass
 
+REQUIRES_PRIVATE_API_KEY = ('You tried to perform calls to functions for '
+                            'which you require a Private API key.')
+
+PACKAGE_SENT_MALFORMED = ('package sent is either malformed '
+                          'or not within the past 24 hours.')
+
+FILE_NOT_FOUND = 'File not found.'
+
+REQUEST_RATE_LIMIT = ('You exceeded the public API request rate limit '
+                      '(4 requests of any nature per minute)')
+
 
 class PublicApi():
     """ VirusTotal's Public API lets you upload and scan files, submit and scan URLs, access finished scan reports
@@ -87,8 +98,11 @@ class PublicApi():
                 files = {'file': this_file}
 
         try:
-            response = requests.post(
-                self.base + 'file/scan', files=files, params=params, proxies=self.proxies, timeout=timeout)
+            response = requests.post(self.base + 'file/scan',
+                                     files=files,
+                                     params=params,
+                                     proxies=self.proxies,
+                                     timeout=timeout)
         except requests.RequestException as e:
             return dict(error=e.message)
 
@@ -107,7 +121,10 @@ class PublicApi():
         params = {'apikey': self.api_key, 'resource': this_hash}
 
         try:
-            response = requests.post(self.base + 'file/rescan', params=params, proxies=self.proxies, timeout=timeout)
+            response = requests.post(self.base + 'file/rescan',
+                                     params=params,
+                                     proxies=self.proxies,
+                                     timeout=timeout)
         except requests.RequestException as e:
             return dict(error=e.message)
 
@@ -130,7 +147,10 @@ class PublicApi():
         params = {'apikey': self.api_key, 'resource': this_hash}
 
         try:
-            response = requests.get(self.base + 'file/report', params=params, proxies=self.proxies, timeout=timeout)
+            response = requests.get(self.base + 'file/report',
+                                    params=params,
+                                    proxies=self.proxies,
+                                    timeout=timeout)
         except requests.RequestException as e:
             return dict(error=e.message)
 
@@ -153,7 +173,10 @@ class PublicApi():
         params = {'apikey': self.api_key, 'url': this_url}
 
         try:
-            response = requests.post(self.base + 'url/scan', params=params, proxies=self.proxies, timeout=timeout)
+            response = requests.post(self.base + 'url/scan',
+                                     params=params,
+                                     proxies=self.proxies,
+                                     timeout=timeout)
         except requests.RequestException as e:
             return dict(error=e.message)
 
@@ -178,7 +201,10 @@ class PublicApi():
         params = {'apikey': self.api_key, 'resource': this_url, 'scan': scan}
 
         try:
-            response = requests.get(self.base + 'url/report', params=params, proxies=self.proxies, timeout=timeout)
+            response = requests.get(self.base + 'url/report',
+                                    params=params,
+                                    proxies=self.proxies,
+                                    timeout=timeout)
         except requests.RequestException as e:
             return dict(error=e.message)
 
@@ -202,10 +228,17 @@ class PublicApi():
 
         :return: If the comment was successfully posted the response code will be 1, 0 otherwise.
         """
-        params = {'apikey': self.api_key, 'resource': resource, 'comment': comment}
+        params = {
+            'apikey': self.api_key,
+            'resource': resource,
+            'comment': comment
+        }
 
         try:
-            response = requests.post(self.base + 'comments/put', params=params, proxies=self.proxies, timeout=timeout)
+            response = requests.post(self.base + 'comments/put',
+                                     params=params,
+                                     proxies=self.proxies,
+                                     timeout=timeout)
         except requests.RequestException as e:
             return dict(error=e.message)
 
@@ -243,7 +276,10 @@ class PublicApi():
         params = {'apikey': self.api_key, 'domain': this_domain}
 
         try:
-            response = requests.get(self.base + 'domain/report', params=params, proxies=self.proxies, timeout=timeout)
+            response = requests.get(self.base + 'domain/report',
+                                    params=params,
+                                    proxies=self.proxies,
+                                    timeout=timeout)
         except requests.RequestException as e:
             return dict(error=e.message)
 
@@ -289,8 +325,11 @@ class PrivateApi(PublicApi):
                 files = {'file': this_file}
 
         try:
-            response = requests.post(
-                self.base + 'file/scan', files=files, params=params, proxies=self.proxies, timeout=timeout)
+            response = requests.post(self.base + 'file/scan',
+                                     files=files,
+                                     params=params,
+                                     proxies=self.proxies,
+                                     timeout=timeout)
         except requests.RequestException as e:
             return dict(error=e.message)
 
@@ -321,7 +360,9 @@ class PrivateApi(PublicApi):
         except requests.RequestException as e:
             return dict(error=e.message)
 
-    def rescan_file(self, resource, date='', period='', repeat='', notify_url='', notify_changes_only='', timeout=None):
+    def rescan_file(self, resource, date='', period='',
+                    repeat='', notify_url='', notify_changes_only='',
+                    timeout=None):
         """ Rescan a previously submitted filed or schedule an scan to be performed in the future.
 
         This API allows you to rescan files present in VirusTotal's file store without having to
@@ -350,7 +391,10 @@ class PrivateApi(PublicApi):
         params = {'apikey': self.api_key, 'resource': resource}
 
         try:
-            response = requests.post(self.base + 'file/rescan', params=params, proxies=self.proxies, timeout=timeout)
+            response = requests.post(self.base + 'file/rescan',
+                                     params=params,
+                                     proxies=self.proxies,
+                                     timeout=timeout)
         except requests.RequestException as e:
             return dict(error=e.message)
 
@@ -372,7 +416,10 @@ class PrivateApi(PublicApi):
         params = {'apikey': self.api_key, 'resource': resource}
 
         try:
-            response = requests.post(self.base + 'rescan/delete', params=params, proxies=self.proxies, timeout=timeout)
+            response = requests.post(self.base + 'rescan/delete',
+                                     params=params,
+                                     proxies=self.proxies,
+                                     timeout=timeout)
         except requests.RequestException as e:
             return dict(error=e.message)
 
@@ -398,10 +445,17 @@ class PrivateApi(PublicApi):
 
         :return: JSON response
         """
-        params = {'apikey': self.api_key, 'resource': resource, 'allinfo': allinfo}
+        params = {
+            'apikey': self.api_key,
+            'resource': resource,
+            'allinfo': allinfo
+        }
 
         try:
-            response = requests.get(self.base + 'file/report', params=params, proxies=self.proxies, timeout=timeout)
+            response = requests.get(self.base + 'file/report',
+                                    params=params,
+                                    proxies=self.proxies,
+                                    timeout=timeout)
         except requests.RequestException as e:
             return dict(error=e.message)
 
@@ -427,7 +481,10 @@ class PrivateApi(PublicApi):
         params = {'apikey': self.api_key, 'hash': this_hash}
 
         try:
-            response = requests.get(self.base + 'file/behaviour', params=params, proxies=self.proxies, timeout=timeout)
+            response = requests.get(self.base + 'file/behaviour',
+                                    params=params,
+                                    proxies=self.proxies,
+                                    timeout=timeout)
         except requests.RequestException as e:
             return dict(error=e.message)
 
@@ -501,7 +558,10 @@ class PrivateApi(PublicApi):
         params = dict(apikey=self.api_key, query=query, offset=offset)
 
         try:
-            response = requests.get(self.base + 'file/search', params=params, proxies=self.proxies, timeout=timeout)
+            response = requests.get(self.base + 'file/search',
+                                    params=params,
+                                    proxies=self.proxies,
+                                    timeout=timeout)
         except requests.RequestException as e:
             return dict(error=e.message)
 
@@ -542,13 +602,17 @@ class PrivateApi(PublicApi):
         params = {'apikey': self.api_key, 'date': this_date}
 
         try:
-            response = requests.get(self.base + 'file/clusters', params=params, proxies=self.proxies, timeout=timeout)
+            response = requests.get(self.base + 'file/clusters',
+                                    params=params,
+                                    proxies=self.proxies,
+                                    timeout=timeout)
         except requests.RequestException as e:
             return dict(error=e.message)
 
         return _return_response_and_status_code(response)
 
-    def get_file_distribution(self, before='', after='', reports='false', limit='1000', timeout=None):
+    def get_file_distribution(self, before='', after='',
+                              reports='false', limit='1000', timeout=None):
         """ Get a live feed with the latest files submitted to VirusTotal.
 
         Allows you to retrieve a live feed of absolutely all uploaded files to VirusTotal, and download them for
@@ -564,7 +628,13 @@ class PrivateApi(PublicApi):
 
         :return: JSON response: please see https://www.virustotal.com/en/documentation/private-api/#file-distribution
         """
-        params = {'apikey': self.api_key, 'before': before, 'after': after, 'reports': reports, 'limit': limit}
+        params = {
+            'apikey': self.api_key,
+            'before': before,
+            'after': after,
+            'reports': reports,
+            'limit': limit
+        }
 
         try:
             response = requests.get(self.base + 'file/distribution',
@@ -598,29 +668,32 @@ class PrivateApi(PublicApi):
         """
         if package is None:
             now = datetime.utcnow()
-            five_minutes_ago = now - timedelta(
-                minutes=now.minute % 5 + 5, seconds=now.second, microseconds=now.microsecond)
+            five_minutes_ago = now - timedelta(minutes=now.minute % 5 + 5,
+                                               seconds=now.second,
+                                               microseconds=now.microsecond)
             package = five_minutes_ago.strftime('%Y%m%dT%H%M')
 
         params = {'apikey': self.api_key, 'package': package}
 
         try:
-            response = requests.get(self.base + 'file/feed', params=params, proxies=self.proxies, timeout=timeout)
+            response = requests.get(self.base + 'file/feed',
+                                    params=params,
+                                    proxies=self.proxies,
+                                    timeout=timeout)
         except requests.RequestException as e:
             return dict(error=e.message)
 
         if response.ok:
             return response.content
         elif response.status_code == 400:
-            return dict(
-                error='package sent is either malformed or not within the past 24 hours.',
-                response_code=response.status_code)
+            return dict(error=PACKAGE_SENT_MALFORMED,
+                        response_code=response.status_code)
         elif response.status_code == 403:
-            return dict(
-                error='You tried to perform calls to functions for which you require a Private API key.',
-                response_code=response.status_code)
+            return dict(error=REQUIRES_PRIVATE_API_KEY,
+                        response_code=response.status_code)
         elif response.status_code == 404:
-            return dict(error='File not found.', response_code=response.status_code)
+            return dict(error=FILE_NOT_FOUND,
+                        response_code=response.status_code)
         else:
             return dict(response_code=response.status_code)
 
@@ -638,18 +711,21 @@ class PrivateApi(PublicApi):
         params = {'apikey': self.api_key, 'hash': this_hash}
 
         try:
-            response = requests.get(self.base + 'file/download', params=params, proxies=self.proxies, timeout=timeout)
+            response = requests.get(self.base + 'file/download',
+                                    params=params,
+                                    proxies=self.proxies,
+                                    timeout=timeout)
         except requests.RequestException as e:
             return dict(error=e.message)
 
         if response.status_code == requests.codes.ok:
             return response.content
         elif response.status_code == 403:
-            return dict(
-                error='You tried to perform calls to functions for which you require a Private API key.',
-                response_code=response.status_code)
+            return dict(error=REQUIRES_PRIVATE_API_KEY,
+                        response_code=response.status_code)
         elif response.status_code == 404:
-            return dict(error='File not found.', response_code=response.status_code)
+            return dict(error=FILE_NOT_FOUND,
+                        response_code=response.status_code)
         else:
             return dict(response_code=response.status_code)
 
@@ -672,16 +748,25 @@ class PrivateApi(PublicApi):
         :return: JSON response
         """
 
-        params = {'apikey': self.api_key, 'resource': this_url, 'scan': scan, 'allinfo': allinfo}
+        params = {
+            'apikey': self.api_key,
+            'resource': this_url,
+            'scan': scan,
+            'allinfo': allinfo
+        }
 
         try:
-            response = requests.get(self.base + 'url/report', params=params, proxies=self.proxies, timeout=timeout)
+            response = requests.get(self.base + 'url/report',
+                                    params=params,
+                                    proxies=self.proxies,
+                                    timeout=timeout)
         except requests.RequestException as e:
             return dict(error=e.message)
 
         return _return_response_and_status_code(response)
 
-    def get_url_distribution(self, after=None, reports='true', limit=1000, timeout=None):
+    def get_url_distribution(self, after=None, reports='true',
+                             limit=1000, timeout=None):
         """ Get a live feed with the lastest URLs submitted to VirusTotal.
 
         Allows you to retrieve a live feed of URLs submitted to VirusTotal, along with their scan reports. This
@@ -697,7 +782,12 @@ class PrivateApi(PublicApi):
         :return: JSON response
         """
 
-        params = {'apikey': self.api_key, 'after': after, 'reports': reports, 'limit': limit}
+        params = {
+            'apikey': self.api_key,
+            'after': after,
+            'reports': reports,
+            'limit': limit
+        }
 
         try:
             response = requests.get(self.base + 'url/distribution',
@@ -731,29 +821,32 @@ class PrivateApi(PublicApi):
         """
         if package is None:
             now = datetime.utcnow()
-            five_minutes_ago = now - timedelta(
-                minutes=now.minute % 5 + 5, seconds=now.second, microseconds=now.microsecond)
+            five_minutes_ago = now - timedelta(minutes=now.minute % 5 + 5,
+                                               seconds=now.second,
+                                               microseconds=now.microsecond)
             package = five_minutes_ago.strftime('%Y%m%dT%H%M')
 
         params = {'apikey': self.api_key, 'package': package}
 
         try:
-            response = requests.get(self.base + 'url/feed', params=params, proxies=self.proxies, timeout=timeout)
+            response = requests.get(self.base + 'url/feed',
+                                    params=params,
+                                    proxies=self.proxies,
+                                    timeout=timeout)
         except requests.RequestException as e:
             return dict(error=e.message)
 
         if response.ok:
             return response.content
         elif response.status_code == 400:
-            return dict(
-                error='package sent is either malformed or not within the past 24 hours.',
-                response_code=response.status_code)
+            return dict(error=PACKAGE_SENT_MALFORMED,
+                        response_code=response.status_code)
         elif response.status_code == 403:
-            return dict(
-                error='You tried to perform calls to functions for which you require a Private API key.',
-                response_code=response.status_code)
+            return dict(error=REQUIRES_PRIVATE_API_KEY,
+                        response_code=response.status_code)
         elif response.status_code == 404:
-            return dict(error='File not found.', response_code=response.status_code)
+            return dict(error=FILE_NOT_FOUND,
+                        response_code=response.status_code)
         else:
             return dict(response_code=response.status_code)
 
@@ -795,7 +888,10 @@ class PrivateApi(PublicApi):
         params = {'apikey': self.api_key, 'domain': this_domain}
 
         try:
-            response = requests.get(self.base + 'domain/report', params=params, proxies=self.proxies, timeout=timeout)
+            response = requests.get(self.base + 'domain/report',
+                                    params=params,
+                                    proxies=self.proxies,
+                                    timeout=timeout)
         except requests.RequestException as e:
             return dict(error=e.message)
 
@@ -819,7 +915,10 @@ class PrivateApi(PublicApi):
         params = dict(apikey=self.api_key, resource=resource, before=before)
 
         try:
-            response = requests.get(self.base + 'comments/get', params=params, proxies=self.proxies, timeout=timeout)
+            response = requests.get(self.base + 'comments/get',
+                                    params=params,
+                                    proxies=self.proxies,
+                                    timeout=timeout)
         except requests.RequestException as e:
             return dict(error=e.message)
 
@@ -887,14 +986,16 @@ class IntelApi():
             return dict(error=e.message)
 
         if response.status_code == requests.codes.ok:
-            self.save_downloaded_file(file_hash, save_file_at, response.content)
+            self.save_downloaded_file(file_hash,
+                                      save_file_at,
+                                      response.content)
             return response.content
         elif response.status_code == 403:
-            return dict(
-                error='You tried to perform calls to functions for which you require a Private API key.',
-                response_code=response.status_code)
+            return dict(error=REQUIRES_PRIVATE_API_KEY,
+                        response_code=response.status_code)
         elif response.status_code == 404:
-            return dict(error='File not found.', response_code=response.status_code)
+            return dict(error=FILE_NOT_FOUND,
+                        response_code=response.status_code)
         else:
             return dict(response_code=response.status_code)
 
@@ -979,14 +1080,13 @@ def _return_response_and_status_code(response):
     :return: dict containing the JSON response and/or the status code with error string.
     """
     if response.status_code == requests.codes.ok:
-        return dict(results=response.json(), response_code=response.status_code)
+        return dict(results=response.json(),
+                    response_code=response.status_code)
     elif response.status_code == 204:
-        return dict(
-            error='You exceeded the public API request rate limit (4 requests of any nature per minute)',
-            response_code=response.status_code)
+        return dict(error=REQUEST_RATE_LIMIT,
+                    response_code=response.status_code)
     elif response.status_code == 403:
-        return dict(
-            error='You tried to perform calls to functions for which you require a Private API key.',
-            response_code=response.status_code)
+        return dict(error=REQUIRES_PRIVATE_API_KEY,
+                    response_code=response.status_code)
     else:
         return dict(response_code=response.status_code)

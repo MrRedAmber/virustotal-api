@@ -3,6 +3,13 @@
 Release History
 ---------------
 
+1.1.5 (2017-04-27)
+------------------
+
+**PEP8 indentation and constants**
+
+- properly indented lines that exceed that 80 character PEP8 limit, and implemented constant variables (credit: @mrredamber aka LEGEND)
+
 1.1.5 (2017-04-13)
 ------------------
 
